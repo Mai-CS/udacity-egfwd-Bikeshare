@@ -58,7 +58,7 @@ def load_data(city, month, day):
     df['Month'] = df['Start Time'].dt.month
 
     # create new column "Day" by extracting the day form datetime
-    df['Day'] = df['Start Time'].dt.weekday_name
+    df['Day'] = df['Start Time'].dt.day_name()
     df['Day'] = df['Day'].str.lower()
 
     # filter by month
