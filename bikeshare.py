@@ -142,18 +142,18 @@ def user_stats(df, city):
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
-    # Display counts of user types
+    # display counts of user types
     count_user_type = df['User Type'].value_counts()
     print("Total number of subscribers: " + str(count_user_type[0]))
     print("Total number of customers: " + str(count_user_type[1]))
 
-    # Display counts of gender
+    # display counts of gender
     if city != list(CITY_DATA.keys())[2]:
         count_gender = df['Gender'].value_counts()
         print("\nTotal number of males: " + str(count_gender[0]))
         print("Total number of females: " + str(count_gender[1]))
 
-    # Display earliest, most recent, and most common year of birth
+    # display earliest, most recent, and most common year of birth
     if city != list(CITY_DATA.keys())[2]:
         print("\nEarliest year of birth: " + str(df['Birth Year'].min()).split('.')[0])
         print("Most recent year of birth: " + str(df['Birth Year'].max()).split('.')[0])
@@ -161,6 +161,30 @@ def user_stats(df, city):
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
+
+
+def display_data(df):
+    """Displays 5 rows of data and asks the user whether he wants to view more or not"""
+
+    start_row = 0
+    first_or_next_time = " the first "
+
+    while True:
+        should_view_data = ""
+        while should_view_data != "yes" and should_view_data != "no":
+            print("\nDo you want to see{}5 rows of data?".format(first_or_next_time))
+            should_view_data = input("Type \'Yes' to see th data or \'No' to end the program\n").lower()
+
+        if should_view_data == "yes":
+            first_or_next_time = " the next "
+            if df.iloc[start_row:start_row + 5].empty:
+                print("\nNo more data")
+                break
+            else:
+                print(df.iloc[start_row:start_row + 5])
+                start_row += 5
+        else:
+            break
 
 
 def main():
@@ -173,6 +197,7 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df, city)
+        display_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
